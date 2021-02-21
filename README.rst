@@ -3,7 +3,7 @@ agarilog
 
 |PyPI version| |Python Versions|
 
-.. |PyPI version| image:: https://badge.fury.io/py/polar-bear.svg
+.. |PyPI version| image:: https://badge.fury.io/py/agarilog.svg
     :target: https://pypi.org/project/agarilog/
     :alt: PyPI version
 
