@@ -13,7 +13,7 @@ Installation
 Features
 --------
 
-Use :code:`.env` file.
+Use .env file.
 ##############################
 
 .. code-block:: python
@@ -21,7 +21,7 @@ Use :code:`.env` file.
     >>> import agarilog as logger
     >>> logger.info("Hello agarilog!")
 
-Use any :code:`.env` file.
+Use any .env file.
 ##########################
 
 .. code-block:: python

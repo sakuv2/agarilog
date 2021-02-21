@@ -4,6 +4,7 @@ version = "0.1.1"
 description = "simple logger for message services."
 authors = ["agari"]
 license = "MIT"
+readme = "README.rst"
 repository = "https://github.com/sakuv2/agarilog"
 packages = [
     { include = "agarilog", from = "src" }
