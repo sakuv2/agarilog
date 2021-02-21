@@ -35,17 +35,17 @@ This is use :code:`dev.env` file.
 Telegram
 ########
 
-.. image:: img/telegram_sample.png
+.. image:: https://github.com/sakuv2/agarilog/blob/main/img/telegram_sample.png?raw=true
 
 Slack
 #####
 
-.. image:: img/slack_sample.png
+.. image:: https://github.com/sakuv2/agarilog/blob/main/img/slack_sample.png?raw=true
 
 Chatwork
 ########
 
-.. image:: img/chatwork_sample.png
+.. image:: https://github.com/sakuv2/agarilog/blob/main/img/chatwork_sample.png?raw=true
 
 Environment
 -----------
