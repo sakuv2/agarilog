@@ -1,6 +1,17 @@
 agarilog
 ========
 
+|PyPI version| |Python Versions|
+
+.. |PyPI version| image:: https://badge.fury.io/py/polar-bear.svg
+    :target: https://pypi.org/project/agarilog/
+    :alt: PyPI version
+
+.. |Python versions| image:: https://img.shields.io/pypi/pyversions/agarilog.svg
+    :target: https://pypi.org/project/agarilog/
+    :alt: Python versions
+
+
 This is simple logger for message service.
 
 Installation
