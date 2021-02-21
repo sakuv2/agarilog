@@ -1,0 +1,27 @@
+# mac
+.DS_Store
+
+# cache
+*/__pycache__/*
+*.pyc
+.pytest_cache
+
+# poetry
+.tox
+.venv
+*.egg-info
+pip-wheel-metadata
+dist
+
+# editor
+.vscode
+
+# coverage
+.coverage
+coverage.xml
+
+# Env
+.env
+
+# notebook
+/notebooks
