@@ -32,6 +32,7 @@ def get_logger(name: str = "agarilog", env_file: str = ".env"):
 
 def set_stream_handler(logger: logging.Logger, conf: LoggerSettings):
     st = logging.StreamHandler(sys.stdout)
+    st.setLevel(conf.stream_level.value)
 
     if conf.stream_type == StremaType.NONE:
         return

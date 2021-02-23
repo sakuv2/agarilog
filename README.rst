@@ -79,6 +79,8 @@ Environment
 
 **Environment variables will always take priority over values loaded from a dotenv file.**
 
+LOG_XXXX_LEVEL: ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+
 Telegram
 ########
 
@@ -105,6 +107,16 @@ Chatwork
     LOG_CHATWORK_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     LOG_CHATWORK_ROOM_ID=XXXXXXXXX
     LOG_CHATWORK_LEVLE=WARNING # default is warning
+
+Terminal
+########
+
+.. code-block::
+
+    LOG_TERMINAL_TYPE=COLOR # default is COLOR
+    LOG_TERMINAL_LEVEL=WARNING # default is warning
+
+LOG_TERMINAL_TYPE: ["NONE", "PRINT", "NORMAL", "COLOR"]
 
 
 Development

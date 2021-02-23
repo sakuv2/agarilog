@@ -32,7 +32,7 @@ class LoggerSettings(BaseSettings):
     chatwork_level: Level = Level.WARNING
 
     stream_type: str = StremaType.NONE
-    stream_level: str = Level.WARNING
+    stream_level: Level = Level.WARNING
 
     @property
     def use_telegram(self) -> bool:
