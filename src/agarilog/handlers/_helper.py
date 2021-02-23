@@ -23,3 +23,22 @@ def get_other_info(record: logging.LogRecord) -> Optional[str]:
     elif record.stack_info is not None:
         return record.stack_info
     return None
+
+
+_color_map = {
+    0: "0m",
+    10: "0;36m",
+    20: "0;32m",
+    30: "0;33m",
+    40: "0;31m",
+    50: "1;31m",
+}
+
+
+def color(level: int, msg: str) -> str:
+    level = level // 10 * 10
+    return f"\x1b[{_color_map[level]}{msg}\x1b[0m"
+
+
+def light_blue(msg: str) -> str:
+    return f"\x1b[0;36m{msg}\x1b[0m"

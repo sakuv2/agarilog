@@ -13,9 +13,16 @@ def bar():
 
 logger.warning("warning", stack_info=True)
 
-time.sleep(1)
+time.sleep(0.1)
 
 try:
     foo()
 except ZeroDivisionError:
-    logger.critical("critical!!!", exc_info=True)
+    logger.error("error!!!", exc_info=True)
+
+
+logger.debug("debug")
+logger.info("info")
+logger.warning("warning")
+logger.error("error")
+logger.critical("critical")

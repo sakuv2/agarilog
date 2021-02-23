@@ -1,27 +1,38 @@
+from enum import Enum
 from typing import Optional
 
-from pydantic import BaseSettings, validator
+from pydantic import BaseSettings
+
+
+class Level(str, Enum):
+    NOTSET = "NOTSET"
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
+
+
+class StremaType(str, Enum):
+    NONE = "NONE"
+    PRINT = "PRINT"
+    NORMAL = "NORMAL"
+    COLOR = "COLOR"
 
 
 class LoggerSettings(BaseSettings):
     telegram_token: Optional[str]
     telegram_chat_id: Optional[int]
-    telegram_level: str = "WARNING"
+    telegram_level: Level = Level.WARNING
     slack_token: Optional[str]
     slack_channel: Optional[str]
-    slack_level: str = "WARNING"
+    slack_level: Level = Level.WARNING
     chatwork_token: Optional[str]
     chatwork_room_id: Optional[int]
-    chatwork_level: str = "WARNING"
+    chatwork_level: Level = Level.WARNING
 
-    @validator("telegram_level", "slack_level", "chatwork_level")
-    def _valid_level(cls, v):
-        levels = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-        if v not in levels:
-            raise ValueError(
-                f'{v} is not in ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]'
-            )
-        return v
+    stream_type: str = StremaType.NONE
+    stream_level: str = Level.WARNING
 
     @property
     def use_telegram(self) -> bool:

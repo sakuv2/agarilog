@@ -14,6 +14,13 @@ agarilog
 
 This is simple logger for message service.
 
+想定用途
+==========
+
+| 長時間のバッチ処理やサービスのデモなどのloggerを想定。
+| 他から呼ばれることを想定したライブラリなどには向きません。
+
+
 Installation
 ------------
 
@@ -38,7 +45,7 @@ Use any .env file.
 .. code-block:: python
 
     >>> from agarilog import get_logger
-    >>> logger = get_logger("dev.env")
+    >>> logger = get_logger(name=__name__, env_file="dev.env")
     >>> logger.info("Hello agarilog!")
 
 This is use :code:`dev.env` file.
@@ -57,6 +64,11 @@ Chatwork
 ########
 
 .. image:: https://github.com/sakuv2/agarilog/blob/main/img/chatwork_sample.png?raw=true
+
+Terminal
+########
+
+.. image:: https://github.com/sakuv2/agarilog/blob/main/img/terminal_sample.png?raw=true
 
 Environment
 -----------
