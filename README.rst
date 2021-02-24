@@ -1,7 +1,7 @@
 agarilog
 ========
 
-|PyPI version| |Python Versions|
+|PyPI version| |Python Versions| |PyPI downloads|
 
 .. |PyPI version| image:: https://badge.fury.io/py/agarilog.svg
     :target: https://pypi.org/project/agarilog/
@@ -11,6 +11,9 @@ agarilog
     :target: https://pypi.org/project/agarilog/
     :alt: Python versions
 
+.. |PyPI downloads| image:: https://pepy.tech/badge/agarilog
+    :target: https://pepy.tech/project/agarilog
+    :alt: PyPI downloads
 
 This is simple logger for message service.
 
