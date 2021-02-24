@@ -106,6 +106,7 @@ Slack
     LOG_SLACK_TOKEN=xxxx-YYYYYYYYYYYY-YYYYYYYYYYYY-xxxxxxxxxxxxxxxxxxxxx
     LOG_SLACK_CHANNEL=XXXXXXXXXXX
     LOG_SLACK_LEVEL=WARNING # default is warning
+    LOG_SLACK_LIMIT=10 # default is 10
 
 Chatwork
 ########
@@ -115,6 +116,7 @@ Chatwork
     LOG_CHATWORK_TOKEN=XXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     LOG_CHATWORK_ROOM_ID=XXXXXXXXX
     LOG_CHATWORK_LEVLE=WARNING # default is warning
+    LOG_CHATWORK_LIMIT=10 # default is 10
 
 Terminal
 ########
