@@ -1,5 +1,5 @@
 agarilog
-========
+********
 
 |PyPI version| |Python Versions| |PyPI downloads|
 
