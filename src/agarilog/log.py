@@ -9,19 +9,25 @@ from .settings import LoggerSettings, StremaType
 def get_logger(name: str = "agarilog", env_file: str = ".env"):
     conf = LoggerSettings(_env_file=env_file)
     logger = logging.getLogger(name)
-    logger.setLevel(0)
+    logger.setLevel(1)
     if conf.use_telegram:
-        th = TelegramHandler(api_token=conf.telegram_token, chat_id=conf.telegram_chat_id)
+        th = TelegramHandler(
+            api_token=conf.telegram_token, chat_id=conf.telegram_chat_id, limit=conf.telegram_limit
+        )
         th.setLevel(conf.telegram_level.value)
         logger.addHandler(th)
 
     if conf.use_slack:
-        sh = SlcakHandler(token=conf.slack_token, channel=conf.slack_channel)
+        sh = SlcakHandler(
+            token=conf.slack_token, channel=conf.slack_channel, limit=conf.slack_limit
+        )
         sh.setLevel(conf.slack_level.value)
         logger.addHandler(sh)
 
     if conf.use_chatwork:
-        ch = ChatworkHandler(token=conf.chatwork_token, room_id=conf.chatwork_room_id)
+        ch = ChatworkHandler(
+            token=conf.chatwork_token, room_id=conf.chatwork_room_id, limit=conf.chatwork_limit
+        )
         sh.setLevel(conf.chatwork_level.value)
         logger.addHandler(ch)
 
@@ -35,6 +41,7 @@ def set_stream_handler(logger: logging.Logger, conf: LoggerSettings):
     st.setLevel(conf.stream_level.value)
 
     if conf.stream_type == StremaType.NONE:
+        logger.addHandler(logging.NullHandler())
         return
     if conf.stream_type == StremaType.PRINT:
         formatter = get_print_formatter()

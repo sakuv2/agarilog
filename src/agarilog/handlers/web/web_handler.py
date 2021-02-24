@@ -2,11 +2,9 @@ import logging
 
 from .request_backend import RequestBackend
 
-rb = RequestBackend()
-
 
 class HTTPHandler(logging.Handler):
-    def __init__(self, url: str, headers: dict = {}, mode: str = "json", **kwargs):
+    def __init__(self, url: str, headers: dict = {}, mode: str = "json", limit: int = 10, **kwargs):
         """これを継承して、各WebサービスにあったHanderを作成する
 
         Args:
@@ -17,8 +15,7 @@ class HTTPHandler(logging.Handler):
         self.url = url
         self.headers = headers
         self.mode = mode
-        self.rb = rb
-        self.rb.init()
+        self.rb = RequestBackend(limit=limit)
 
         super().__init__(**kwargs)
 

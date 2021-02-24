@@ -32,7 +32,7 @@ Features
 --------
 
 Use .env file.
-##############################
+##############
 
 .. code-block:: python
 
@@ -40,7 +40,7 @@ Use .env file.
     >>> logger.info("Hello agarilog!")
 
 Use any .env file.
-##########################
+##################
 
 .. code-block:: python
 
@@ -77,9 +77,13 @@ Environment
 | もしくは実行パスと同じ場所の :code:`.env` ファイルに記述する。
 | importの方法を変えることで任意のファイルを読み込むこともできる。(上記参照)
 
+
+| web系の設定は :code:`LOG_XXXX_LIMIT` を用いて並列で送信するログの数に制限をかけられる。
+| 1に設定することで、ログの順序通りに送信できる。それ以上は順序は保証されない。
+
 **Environment variables will always take priority over values loaded from a dotenv file.**
 
-LOG_XXXX_LEVEL: ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+:code:`LOG_XXXX_LEVEL`: ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 
 Telegram
 ########
@@ -89,6 +93,7 @@ Telegram
     LOG_TELEGRAM_TOKEN=XXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYY
     LOG_TELEGRAM_CHAT_ID=XXXXXXXX
     LOG_TELEGRAM_LEVEL=WARNING # default is warning
+    LOG_TELEGRAM_LIMIT=10 # default is 10
 
 Slack
 #####
@@ -116,7 +121,7 @@ Terminal
     LOG_TERMINAL_TYPE=COLOR # default is COLOR
     LOG_TERMINAL_LEVEL=WARNING # default is warning
 
-LOG_TERMINAL_TYPE: ["NONE", "PRINT", "NORMAL", "COLOR"]
+:code:`LOG_TERMINAL_TYPE`: ["NONE", "PRINT", "NORMAL", "COLOR"]
 
 
 Development

@@ -1,14 +1,14 @@
 """メインスレッドとは違うところでQueueにたまったリクエストを送り続けるバックエンド機構
 """
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
+import threading
 from queue import Queue
 from typing import Dict, List, Optional, Tuple, Union
 
 import aiohttp
 from pydantic import BaseModel, HttpUrl, validator
 
-from ._helper import register, to_thread
+from ._helper import is_ipython, to_thread
 
 
 class Request(BaseModel):
@@ -38,9 +38,17 @@ class Request(BaseModel):
 
 
 class RequestBackend:
-    def __init__(self) -> None:
-        self.flg_init = False
-        register(self)  # 待機する処理を加える(IPythonと通常実行で処理を切り替える)
+    def __init__(self, limit=10) -> None:
+        self.is_ipython = is_ipython()
+        self.queue: Queue[Optional[Request]] = Queue()
+        self.thread = self._start_new_thread()
+        self.limit = limit
+
+        # ipython起動の場合セルの開始と終了でスレッドを再作成&停止するようにする
+        if self.is_ipython:
+            ip = eval("get_ipython()")
+            ip.events.register("pre_execute", self.restart)
+            ip.events.register("post_execute", self.shutdown)
 
     def post(
         self,
@@ -64,28 +72,32 @@ class RequestBackend:
         request = Request(method="GET", url=url, params=params, headers=headers)
         self._put(request)
 
-    def init(self):
-        if self.flg_init:
+    def restart(self):
+        if self.thread is not None and self.thread.is_alive():
             return
-        self.queue: Queue[Union[Request], str] = Queue()
-        self.executor = ThreadPoolExecutor()
-        self.future = self.executor.submit(asyncio.run, self._worker())
-        self.flg_init = True
+        # スレッドが初期化されていないまたはスレッドが死んでいるならば新しいスレッドを起動する
+        self.thread = self._start_new_thread()
 
     def shutdown(self):
-        if not self.flg_init:
+        if self.thread is None or not self.thread.is_alive():
             return
-        self._put("STOP")
-        self.future.result()
-        self.executor.shutdown()
-        self.flg_init = False
+        self._put(None)  # 終了命令を通知
+        self.thread.join()
+
+    def _start_new_thread(self) -> threading.Thread:
+        th = threading.Thread(target=asyncio.run, args=[self._worker()])
+        th.start()
+        return th
 
     def _put(self, item: Union[Request, str]):
         self.queue.put_nowait(item)
 
-    async def _send_request(self, session: aiohttp.ClientSession, request: Request):
+    async def _send_request(
+        self, session: aiohttp.ClientSession, request: Request, semaphore: asyncio.Semaphore
+    ):
         method = self._get if request.method == "GET" else self._post
-        await method(session, request)
+        async with semaphore:
+            await method(session, request)
 
     @staticmethod
     async def _get(sess: aiohttp.ClientSession, r: Request):
@@ -105,15 +117,28 @@ class RequestBackend:
         Returns:
             bool: 完了したらTrueを返す
         """
+
+        # ipython起動じゃなければmainスレッド終了時に終了を通知する機構を仕込む
+        if not self.is_ipython:
+            asyncio.create_task(self._wait_main_thread())
+
+        sem = asyncio.Semaphore(self.limit)
+
         async with aiohttp.ClientSession() as session:
             tasks = []
             while True:
-                request = await to_thread(self.queue.get)
-                if request == "STOP":
+                request: Request = await to_thread(self.queue.get)
+                if request is None:
                     break
-                send_request = self._send_request(session, request)
+                send_request = self._send_request(session, request, sem)
                 tasks.append(asyncio.create_task(send_request))
                 tasks = [task for task in tasks if not task.done()]
-            if len(tasks) != 0:
+            if tasks != []:
                 await asyncio.wait(tasks)
         return True
+
+    async def _wait_main_thread(self):
+        """メインスレッドの停止を確認したらqueueにNone(停止命令)をいれる"""
+        main = threading.main_thread()
+        await to_thread(main.join)
+        self._put(None)

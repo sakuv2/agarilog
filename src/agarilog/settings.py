@@ -24,14 +24,19 @@ class LoggerSettings(BaseSettings):
     telegram_token: Optional[str]
     telegram_chat_id: Optional[int]
     telegram_level: Level = Level.WARNING
+    telegram_limit: int = 10
+
     slack_token: Optional[str]
     slack_channel: Optional[str]
     slack_level: Level = Level.WARNING
+    slack_limit: int = 10
+
     chatwork_token: Optional[str]
     chatwork_room_id: Optional[int]
     chatwork_level: Level = Level.WARNING
+    chatwork_limit: int = 10
 
-    stream_type: str = StremaType.NONE
+    stream_type: str = StremaType.COLOR
     stream_level: Level = Level.WARNING
 
     @property
