@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agarilog"
-version = "0.2.0"
+version = "0.2.1"
 description = "simple logger for message services."
 authors = ["agari"]
 license = "MIT"
